@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Next Shore · 彼岸</title>
+<meta name="description" content="A calm self-assessment for early-career professionals curious about working abroad. 给工作 1–5 年、想看看海外可能性的人的自我评估。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+/* ---------- Tokens ---------- */
+:root{
+  --paper:#f7f4ee; --card:#fffdf9; --ink:#1d2a2c; --muted:#5d6b6c; --line:#e3ddd2;
+  --teal:#1f5c5a; --teal-soft:#d9e7e4; --warm:#c9774a; --warm-soft:#f4e3d6;
+  --serif:"Fraunces","Noto Serif SC",Georgia,serif; --sans:"Inter","Noto Sans SC",system-ui,sans-serif;
+  --r:14px; --ease:cubic-bezier(.2,.7,.2,1);
+}
+[data-theme=dark]{ --paper:#141a1b; --card:#1b2324; --ink:#ece6dc; --muted:#a3adab; --line:#2c3738;
+  --teal:#7fbcb5; --teal-soft:#21393a; --warm:#e09a6f; --warm-soft:#3a2a20; }
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0;letter-spacing:-.01em}
+a{color:var(--teal)} button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--warm);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);font-weight:600}
+.muted{color:var(--muted)}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:11px 20px;border-radius:999px;font-weight:500;transition:transform .2s var(--ease),opacity .2s}
+.btn:hover{transform:translateY(-1px)} .btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.chip{display:inline-block;font-size:12px;padding:3px 10px;border-radius:999px;background:var(--teal-soft);color:var(--teal);margin:0 6px 6px 0}
+.chip.warm{background:var(--warm-soft);color:var(--warm)}
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;height:60px}
+.logo{font-family:var(--serif);font-size:20px;font-weight:600;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px}
+.logo i{width:22px;height:22px;border-radius:50%;border:2px solid var(--teal);position:relative;display:inline-block}
+.logo i:after{content:"";position:absolute;left:3px;right:3px;bottom:5px;height:2px;background:var(--warm)}
+nav{display:flex;gap:18px;margin-left:auto;font-size:14px} nav a{color:var(--muted);text-decoration:none} nav a:hover{color:var(--ink)}
+.toggle{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;font-size:13px}
+.toggle button{border:0;background:none;padding:4px 10px;border-radius:999px;color:var(--muted)}
+.toggle button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.icon-btn{border:1px solid var(--line);background:none;width:34px;height:34px;border-radius:50%}
+/* ---------- Hero ---------- */
+.hero{padding:72px 0 40px;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(34px,5vw,56px)} .hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{font-size:18px;max-width:560px}
+.promise{border-left:2px solid var(--warm);padding-left:16px;font-size:14px}
+.promise li{margin:4px 0}
+/* ---------- Assessment ---------- */
+section{padding:48px 0;scroll-margin-top:60px}
+.assess{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px}
+.progress{display:flex;gap:6px;margin-bottom:24px} .progress span{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .4s}
+.progress span.on{background:var(--teal)} .progress span.cur{background:var(--warm)}
+.step{animation:in .45s var(--ease)} @keyframes in{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.step h2{font-size:28px;margin:6px 0 8px}
+.q{margin-top:22px} .q>p{font-weight:600;margin:0 0 10px;font-size:14px}
+.opts{display:grid;gap:8px} .opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;justify-content:space-between;gap:12px;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:12px 14px;transition:border-color .2s,background .2s,transform .15s}
+.opt:hover{border-color:var(--teal)} .opt:active{transform:scale(.99)}
+.opt[aria-pressed=true]{border-color:var(--teal);background:var(--teal-soft)}
+.opt small{color:var(--muted);white-space:nowrap}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.radar-card{position:sticky;top:84px}
+.radar-card h3{font-size:18px}
+svg.radar{width:100%;height:auto;display:block;overflow:visible}
+.radar .grid{fill:none;stroke:var(--line)} .radar .axis{stroke:var(--line)}
+.radar .shape{fill:color-mix(in srgb,var(--teal) 22%,transparent);stroke:var(--teal);stroke-width:2;stroke-linejoin:round}
+.radar .dot{fill:var(--warm)} .radar text{font:12px var(--sans);fill:var(--muted)}
+.ready{display:flex;align-items:baseline;gap:8px;margin-top:6px} .ready b{font:600 36px var(--serif);color:var(--teal)}
+.mini{display:none}
+/* ---------- Results ---------- */
+#results[hidden]{display:none}
+.res-head{display:grid;grid-template-columns:1.4fr .6fr;gap:32px;align-items:center}
+.res-head h2{font-size:clamp(26px,3.4vw,38px);margin:8px 0 12px}
+.effort{display:flex;gap:4px;margin-top:6px} .effort i{width:26px;height:8px;border-radius:4px;background:var(--line)} .effort i.on{background:var(--warm)}
+.road{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:40px 0 8px}
+.road:before{content:"";position:absolute;top:13px;left:12px;right:12px;height:2px;background:repeating-linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 14px)}
+.stop{position:relative;padding-top:38px;animation:in .5s var(--ease) both}
+.stop:before{content:"";position:absolute;top:4px;left:0;width:20px;height:20px;border-radius:50%;background:var(--card);border:2px solid var(--teal)}
+.stop.here:before{background:var(--warm);border-color:var(--warm);box-shadow:0 0 0 6px var(--warm-soft)}
+.stop .t{font-size:12px;color:var(--warm);font-weight:600;letter-spacing:.06em}
+.stop h4{margin:4px 0;font-family:var(--serif);font-size:17px}
+.steps-list{counter-reset:s;list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.steps-list li{counter-increment:s;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 14px 14px 48px;position:relative}
+.steps-list li:before{content:counter(s);position:absolute;left:14px;top:12px;font:600 18px var(--serif);color:var(--teal)}
+details{border-top:1px solid var(--line)} details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;padding:16px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+summary:after{content:"+";color:var(--teal);font-size:20px;line-height:1;transition:transform .25s} details[open] summary:after{transform:rotate(45deg)}
+details>div{padding:0 0 18px;animation:in .3s var(--ease)}
+.gap{display:grid;grid-template-columns:110px 1fr;gap:12px;margin:10px 0}
+.meter{height:6px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:6px}.meter i{display:block;height:100%;background:var(--warm)}
+/* ---------- Countries ---------- */
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:20px 0}
+.tools input,.tools select{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 16px}
+.tools input{flex:1;min-width:200px}
+.switch{display:flex;gap:8px;align-items:center;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--card)}
+.switch[aria-pressed=true]{border-color:var(--teal);color:var(--teal);background:var(--teal-soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px;transition:transform .2s var(--ease),border-color .2s}
+.cc:hover{transform:translateY(-2px);border-color:var(--teal)}
+.cc .top{display:flex;align-items:center;gap:10px} .cc .flag{font-size:24px} .cc h3{font-size:18px}
+.cc p{margin:0;font-size:14px;color:var(--muted);flex:1}
+.ticks{display:flex;gap:3px} .ticks i{width:14px;height:4px;border-radius:2px;background:var(--line)} .ticks i.on{background:var(--ink)}
+.cc .row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+.cc .acts{display:flex;gap:8px} .cc .acts button{font-size:13px;padding:6px 12px}
+.match{font:600 13px var(--sans);color:var(--teal)}
+.soon{font-size:12px;color:var(--warm)}
+/* Drawer + modal */
+.scrim{position:fixed;inset:0;background:rgba(20,26,27,.35);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(620px,100%);background:var(--card);z-index:50;transform:translateX(100%);transition:transform .35s var(--ease);overflow:auto;padding:28px 32px 48px;border-left:1px solid var(--line)}
+.drawer.on{transform:none}
+.drawer h2{font-size:30px;margin:6px 0}
+.close{float:right}
+.req{width:100%;border-collapse:collapse;font-size:14px} .req td{border-top:1px solid var(--line);padding:9px 6px;vertical-align:top} .req td:first-child{width:90px;font-weight:600}
+.route{border-left:2px solid var(--teal);padding:2px 0 2px 14px;margin:12px 0} .route b{display:block}
+.tray{position:fixed;left:50%;bottom:18px;transform:translate(-50%,140%);z-index:35;background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 8px 8px 20px;display:flex;gap:12px;align-items:center;transition:transform .35s var(--ease);font-size:14px;max-width:calc(100% - 24px)}
+.tray{visibility:hidden}.tray.on{transform:translate(-50%,0);visibility:visible} .tray .btn{background:var(--paper);color:var(--ink)}
+.cmp{overflow:auto} .cmp table{border-collapse:collapse;min-width:560px;width:100%;font-size:14px}
+.cmp th,.cmp td{text-align:left;vertical-align:top;padding:10px;border-top:1px solid var(--line)} .cmp th{font-family:var(--serif)}
+.cmp td:first-child{font-weight:600;color:var(--muted);width:120px}
+.drawer.wide{width:min(980px,100%)}
+.note{font-size:13px;background:var(--warm-soft);border-radius:10px;padding:12px 16px;color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:32px 0 80px;font-size:13px;color:var(--muted)}
+/* ---------- Responsive ---------- */
+@media (max-width:900px){
+  .hero,.assess,.res-head{grid-template-columns:1fr} .hero{padding-top:40px}
+  .radar-card.full{display:none}
+  .mini{display:flex;position:sticky;top:60px;z-index:20;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:12px}
+  .mini svg{width:64px;height:64px;flex:none} .mini b{font:600 22px var(--serif);color:var(--teal)}
+  .road{grid-template-columns:1fr;gap:0} .road:before{top:12px;bottom:12px;left:9px;right:auto;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--teal) 0 8px,transparent 8px 14px)}
+  .stop{padding:0 0 22px 36px} .stop:before{top:2px}
+  .steps-list,.opts.two{grid-template-columns:1fr}
+  nav{display:none} .panel{padding:22px} .wrap{padding:0 16px}
+  .bar{gap:10px} .logo{margin-right:auto}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="logo" href="#top"><i aria-hidden="true"></i><span>Next Shore · 彼岸</span></a>
+  <nav><a href="#assess" data-t="navAssess"></a><a href="#countries" data-t="navCountries"></a><a href="#about" data-t="navAbout"></a></nav>
+  <div class="toggle" role="group" aria-label="Language"><button data-lang="zh">中</button><button data-lang="en">EN</button></div>
+  <button class="icon-btn" id="theme" aria-label="Toggle dark mode">◐</button>
+</div></header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow" data-t="heroEyebrow"></div>
+      <h1 data-t="heroTitle" data-html></h1>
+      <p class="muted" data-t="heroLead"></p>
+      <a class="btn" href="#assess" data-t="heroCta" style="text-decoration:none;display:inline-block;margin-top:8px"></a>
+    </div>
+    <ul class="promise muted" data-t="promise" data-html></ul>
+  </div>
+
+  <section id="assess"><div class="wrap">
+    <div class="mini" id="mini" aria-hidden="true"></div>
+    <div class="assess">
+      <div class="panel" id="stepPanel" aria-live="polite"></div>
+      <aside class="panel radar-card full">
+        <div class="eyebrow" data-t="radarEyebrow"></div>
+        <h3 data-t="radarTitle"></h3>
+        <div id="radar"></div>
+        <div class="ready"><b id="readyNum">0</b><span class="muted" data-t="readyLabel"></span></div>
+        <p class="muted" style="font-size:13px" data-t="radarNote"></p>
+      </aside>
+    </div>
+  </div></section>
+
+  <section id="results" hidden><div class="wrap"><div class="panel" id="resPanel"></div></div></section>
+
+  <section id="countries"><div class="wrap">
+    <div class="eyebrow" data-t="cEyebrow"></div>
+    <h2 style="font-size:34px;margin-top:6px" data-t="cTitle"></h2>
+    <p class="muted" data-t="cLead"></p>
+    <div class="tools">
+      <input id="q" type="search" />
+      <select id="fLang" aria-label="language"></select>
+      <select id="fDiff" aria-label="difficulty"></select>
+      <select id="fPath" aria-label="pathway"></select>
+      <button class="switch" id="fMatch" aria-pressed="false"></button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div></section>
+
+  <section id="about"><div class="wrap"><div class="note" data-t="disclaimer"></div></div></section>
+</main>
+<footer><div class="wrap" data-t="footer"></div></footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" tabindex="-1"></aside>
+<div class="tray" id="tray"><span id="trayTxt"></span><button class="btn" id="cmpBtn"></button><button class="icon-btn" id="trayClear" style="color:inherit;border-color:#fff4" aria-label="clear">×</button></div>
+
+<script src="data.js"></script>
+<script>
+/* ===================== UI strings ===================== */
+const UI = {
+  navAssess:["自我评估","Self-assessment"], navCountries:["国家","Countries"], navAbout:["说明","About"],
+  heroEyebrow:["给工作 1–5 年的你","For people 1–5 years into work"],
+  heroTitle:["先看清<em>你在哪</em>，<br>再看去哪。","See <em>where you stand</em>,<br>then where to go."],
+  heroLead:["7 步，约 3 分钟。不推销签证，不谈投资移民。只告诉你：像你这样的人，真正需要付出什么。","7 steps, about 3 minutes. No visa sales, no investment schemes — just what it would honestly take for someone like you."],
+  heroCta:["开始评估","Start the assessment"],
+  promise:["<li>多数人需要 2–4 年准备，而不是“明年就走”</li><li>英语、技能、主动性，比钱更重要</li><li>结果只保存在你的浏览器里</li>","<li>Most people need 2–4 years of preparation, not \"next year\"</li><li>English, skills and initiative matter more than money</li><li>Your result stays in your browser only</li>"],
+  radarEyebrow:["你的成长地图","Your growth map"], radarTitle:["随回答实时变化","Updates as you answer"],
+  readyLabel:["/ 100 准备度","/ 100 readiness"], radarNote:["准备度是粗略的综合参考，不是任何国家的官方分数。","Readiness is a rough composite, not any country's official score."],
+  step:["第 {n} / {t} 步","Step {n} of {t}"], back:["上一步","Back"], next:["下一步","Next"], finish:["看我的结果","See my result"],
+  youAreHere:["你在这里","You are here"], now:["现在","Now"],
+  effort:["需要的投入","Effort required"], horizon:["大致时间","Rough horizon"],
+  nextSteps:["接下来具体做什么","Concrete next steps"], whatTake:["对我来说要做到什么？","What would it take for me?"],
+  whatTakeLead:["按你最弱的三项排序：","Ordered by your three weakest axes:"],
+  matches:["和你最匹配的国家","Your best-matched countries"], toTake:["对你来说还差什么","What it would take for you"],
+  noGap:["主要门槛你已经达到，关键在拿到 offer 或邀请。","You meet the main thresholds; the key is landing an offer or invitation."],
+  langGap:["需要愿意学当地语言（你没有勾选）","You'd need to learn the local language (not selected)"],
+  retake:["重新评估","Retake"], edit:["修改答案","Edit answers"], seeCountries:["查看全部国家","Browse all countries"],
+  cEyebrow:["第二层","Second layer"], cTitle:["国家，作为参考","Countries, as reference"],
+  cLead:["只列普通职场人可走的路线：技能打分、雇主担保、留学转工作。不含投资或购房移民。","Only routes for ordinary professionals: skilled points, employer sponsorship, study-to-work. No investment or property-based schemes."],
+  search:["搜索国家…","Search countries…"], allLang:["全部语言","Any language"], allDiff:["全部难度","Any difficulty"], allPath:["全部路线","Any pathway"],
+  diffN:["难度 {n}/5","Difficulty {n}/5"], matchOn:["只看匹配我的结果","Matched to my result"], matchNeed:["先完成评估","Finish the assessment first"],
+  details:["详情","Details"], compare:["比较","Compare"], added:["已加入","Added"], comingSoon:["即将更新","Coming soon"],
+  matchPct:["匹配 {n}","Match {n}"], none:["没有符合条件的国家。","No countries match."],
+  overview:["概况","Overview"], routes:["适合普通职场人的路线","Routes for ordinary professionals"], reqs:["关键要求","Key requirements"],
+  living:["生活与工作现实","Living & working reality"], risks:["风险与注意","Risks & caveats"], suits:["适合谁","Who it suits"], links:["官方来源","Official sources"],
+  trayN:["已选 {n} / 3 个国家","{n} of 3 selected"], compareNow:["并排比较","Compare side by side"], close:["关闭","Close"],
+  cmpTitle:["并排比较","Side-by-side"], difficulty:["难度","Difficulty"], language:["语言","Language"], pathways:["路线","Pathways"], line:["一句话","In one line"],
+  cmpMax:["最多比较 3 个国家","Compare up to 3 countries"],
+  disclaimer:["<b>说明：</b>本站内容是一般性信息，不构成移民、法律或财务建议。政策经常变化，所有数字都是近似范围，请以各国官方网站为准。我们不提供中介服务，也不推荐任何投资类居留项目。","<b>Please note:</b> this site is general information, not migration, legal or financial advice. Policies change often and every figure is approximate — always check official government sources. We offer no agency services and do not recommend any investment-based residency."],
+  footer:["Next Shore · 彼岸 — 一个诚实的自我评估原型。最近整理：2026 年 10 月。","Next Shore · 彼岸 — an honest self-assessment prototype. Last reviewed: October 2026."],
+};
+/* ===================== State ===================== */
+const S = {
+  lang: localStorage.getItem("ns.lang") || "zh",
+  answers: {}, step: 0, done: false, cmp: [], matchOnly: false,
+};
+try { const saved = JSON.parse(localStorage.getItem("ns.result") || "null"); if (saved) { S.answers = saved.answers; S.done = true; S.step = NS.STEPS.length - 1; } } catch (e) {}
+const tx = (o) => (o ? o[S.lang] : "");
+const u = (k, vars) => { let s = UI[k][S.lang === "zh" ? 0 : 1]; for (const v in vars || {}) s = s.replace("{" + v + "}", vars[v]); return s; };
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* ===================== Radar (hand-built SVG with morph) ===================== */
+let shown = { english: 0, skills: 0, experience: 0, runway: 0, flex: 0 }, anim;
+function radarSVG(vals, size, labels) {
+  const c = size / 2, R = size / 2 - (labels ? 46 : 4), n = NS.AXES.length;
+  const pt = (i, r) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n; return [c + r * Math.cos(a), c + r * Math.sin(a)]; };
+  let g = "";
+  for (const k of [0.25, 0.5, 0.75, 1]) g += `<polygon class="grid" points="${NS.AXES.map((_, i) => pt(i, R * k).join(",")).join(" ")}"/>`;
+  NS.AXES.forEach((ax, i) => {
+    const [x, y] = pt(i, R); g += `<line class="axis" x1="${c}" y1="${c}" x2="${x}" y2="${y}"/>`;
+    if (labels) { const [lx, ly] = pt(i, R + 24); g += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle">${tx(ax.label)} · ${Math.round(vals[ax.id])}</text>`; }
+  });
+  const pts = NS.AXES.map((ax, i) => pt(i, (R * Math.max(4, vals[ax.id])) / 100));
+  g += `<polygon class="shape" points="${pts.map((p) => p.join(",")).join(" ")}"/>`;
+  if (labels) g += pts.map((p) => `<circle class="dot" cx="${p[0]}" cy="${p[1]}" r="3.5"/>`).join("");
+  return `<svg class="radar" viewBox="0 0 ${size} ${size}" role="img" aria-label="radar">${g}</svg>`;
+}
+function drawRadar() {
+  const target = NS.scoreAxes(S.answers), from = { ...shown }, t0 = performance.now();
+  cancelAnimationFrame(anim);
+  const tick = (t) => {
+    const k = Math.min(1, (t - t0) / 500), e = 1 - Math.pow(1 - k, 3);
+    for (const a in target) shown[a] = from[a] + (target[a] - from[a]) * e;
+    const r = NS.readiness(shown, S.answers);
+    $("#radar").innerHTML = radarSVG(shown, 360, true); $("#readyNum").textContent = r;
+    $("#mini").innerHTML = radarSVG(shown, 64, false) + `<div><b>${r}</b> <span class="muted" style="font-size:13px">${u("readyLabel")}</span><div class="muted" style="font-size:12px">${u("step", { n: S.step + 1, t: NS.STEPS.length })}</div></div>`;
+    if (k < 1) anim = requestAnimationFrame(tick);
+  };
+  anim = requestAnimationFrame(tick);
+}
+
+/* ===================== Assessment ===================== */
+function stepComplete(st) { return st.questions.every((q) => (q.type === "multi" ? true : !!S.answers[q.id])); }
+function renderStep() {
+  const st = NS.STEPS[S.step], last = S.step === NS.STEPS.length - 1;
+  const prog = NS.STEPS.map((_, i) => `<span class="${i < S.step ? "on" : i === S.step ? "cur" : ""}"></span>`).join("");
+  const qs = st.questions.map((q) => {
+    const many = q.options.length > 5;
+    const opts = q.options.map((o) => {
+      const on = q.type === "multi" ? (S.answers[q.id] || []).includes(o.id) : S.answers[q.id] === o.id;
+      return `<button class="opt" data-q="${q.id}" data-o="${o.id}" data-multi="${q.type === "multi"}" aria-pressed="${on}"><span>${tx(o.label)}</span>${o.sub ? `<small>${tx(o.sub)}</small>` : ""}</button>`;
+    }).join("");
+    return `<div class="q" role="group" aria-label="${esc(tx(q.label || st.title))}">${q.label ? `<p>${tx(q.label)}</p>` : ""}<div class="opts ${many ? "two" : ""}">${opts}</div></div>`;
+  }).join("");
+  $("#stepPanel").innerHTML = `<div class="progress" aria-hidden="true">${prog}</div>
+    <div class="step"><div class="eyebrow">${u("step", { n: S.step + 1, t: NS.STEPS.length })}</div><h2>${tx(st.title)}</h2><p class="muted">${tx(st.hint)}</p>${qs}</div>
+    <div class="nav-row"><button class="btn ghost" id="back" ${S.step === 0 ? "disabled" : ""}>${u("back")}</button>
+    <button class="btn" id="next" ${stepComplete(st) ? "" : "disabled"}>${last ? u("finish") : u("next")}</button></div>`;
+  drawRadar();
+}
+$("#stepPanel").addEventListener("click", (e) => {
+  const b = e.target.closest(".opt");
+  if (b) {
+    const q = b.dataset.q, o = b.dataset.o;
+    if (b.dataset.multi === "true") { const arr = new Set(S.answers[q] || []); arr.has(o) ? arr.delete(o) : arr.add(o); S.answers[q] = [...arr]; }
+    else S.answers[q] = o;
+    // Update pressed states in place (keeps focus), then refresh nav + radar.
+    b.closest(".opts").querySelectorAll(".opt").forEach((x) => x.setAttribute("aria-pressed", b.dataset.multi === "true" ? (S.answers[q] || []).includes(x.dataset.o) : x.dataset.o === o));
+    $("#next").disabled = !stepComplete(NS.STEPS[S.step]); drawRadar(); return;
+  }
+  if (e.target.id === "back" && S.step > 0) { S.step--; renderStep(); }
+  if (e.target.id === "next") {
+    if (S.step < NS.STEPS.length - 1) { S.step++; renderStep(); $("#assess").scrollIntoView({ block: "start" }); }
+    else finish();
+  }
+});
+function finish() {
+  S.done = true; localStorage.setItem("ns.result", JSON.stringify({ answers: S.answers, at: Date.now() }));
+  renderResults(); renderCountries(); $("#results").scrollIntoView({ behavior: "smooth" });
+}
+
+/* ===================== Results ===================== */
+function compute() {
+  const s = NS.scoreAxes(S.answers), r = NS.readiness(s, S.answers), arch = NS.pickArchetype(s, r);
+  const ranked = NS.COUNTRIES.map((c) => ({ c, ...NS.matchCountry(c, s, S.answers) })).sort((a, b) => b.score - a.score || b.c.full - a.c.full);
+  return { s, r, arch, ranked };
+}
+function gapLine(g) {
+  if (g.axis === "language") return u("langGap");
+  const ax = NS.AXES.find((a) => a.id === g.axis);
+  return `${tx(ax.label)}: ${g.have} → ${g.need}+`;
+}
+function renderResults() {
+  if (!S.done) { $("#results").hidden = true; return; }
+  const { s, r, arch, ranked } = compute();
+  $("#results").hidden = false;
+  const weakest = Object.entries(s).sort((a, b) => a[1] - b[1]).slice(0, 3);
+  const times = ["0–6", "6–18", "18–36"].map((x) => (S.lang === "zh" ? x + " 个月" : x + " mo"));
+  const road = `<div class="stop here"><div class="t">${u("now")}</div><h4>${u("youAreHere")}</h4><div class="muted" style="font-size:14px">${r}/100</div></div>` +
+    arch.timeline.map((m, i) => `<div class="stop" style="animation-delay:${(i + 1) * 0.12}s"><div class="t">${times[i]}</div><h4>${tx(m)}</h4></div>`).join("");
+  const take = weakest.map(([k, v]) => `<div class="gap"><div><b>${tx(NS.AXES.find((a) => a.id === k).label)}</b><div class="meter"><i style="width:${v}%"></i></div><small class="muted">${v}/100</small></div><div>${tx(NS.GAP_TEXT[k])}</div></div>`).join("");
+  const top = [...ranked].sort((a, b) => b.score + (b.c.full ? 10 : 0) - a.score - (a.c.full ? 10 : 0)).slice(0, 5).map(({ c, score, gaps }) => `<details><summary><span>${c.flag} ${tx(c.name)} <span class="match">· ${u("matchPct", { n: score })}</span>${c.full ? "" : ` <span class="soon">${u("comingSoon")}</span>`}</span></summary><div>
+      <p class="muted" style="margin-top:0">${tx(c.line)}</p><b>${u("toTake")}</b>
+      <ul>${gaps.length ? gaps.map((g) => `<li>${esc(gapLine(g))}</li>`).join("") : `<li>${u("noGap")}</li>`}</ul>
+      ${c.full ? `<button class="btn ghost" data-open="${c.id}">${u("details")}</button>` : ""}</div></details>`).join("");
+  $("#resPanel").innerHTML = `<div class="res-head"><div><div class="eyebrow">${u("radarEyebrow")}</div><h2>${tx(arch.title)}</h2><p class="muted">${tx(arch.summary)}</p>
+      <div style="display:flex;gap:32px;flex-wrap:wrap"><div><small class="muted">${u("effort")}</small><div class="effort" aria-label="${arch.effort}/5">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= arch.effort ? "on" : ""}"></i>`).join("")}</div></div>
+      <div><small class="muted">${u("horizon")}</small><div style="font-weight:600">${tx(arch.years)}</div></div></div></div>
+      <div>${radarSVG(s, 300, true)}</div></div>
+    <div class="road">${road}</div>
+    <h3 style="margin:32px 0 12px;font-size:20px">${u("nextSteps")}</h3><ol class="steps-list">${arch.steps.map((x) => `<li>${tx(x)}</li>`).join("")}</ol>
+    <details open style="margin-top:24px"><summary>${u("whatTake")}</summary><div><p class="muted">${u("whatTakeLead")}</p>${take}</div></details>
+    <h3 style="margin:32px 0 4px;font-size:20px">${u("matches")}</h3>${top}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px"><button class="btn ghost" id="edit">${u("edit")}</button><button class="btn ghost" id="retake">${u("retake")}</button><a class="btn" href="#countries" style="text-decoration:none">${u("seeCountries")}</a></div>`;
+}
+$("#resPanel").addEventListener("click", (e) => {
+  if (e.target.dataset.open) openCountry(e.target.dataset.open);
+  if (e.target.id === "edit") { S.step = 0; renderStep(); $("#assess").scrollIntoView({ behavior: "smooth" }); }
+  if (e.target.id === "retake") { S.answers = {}; S.step = 0; S.done = false; localStorage.removeItem("ns.result"); renderResults(); renderStep(); renderCountries(); $("#assess").scrollIntoView({ behavior: "smooth" }); }
+});
+
+/* ===================== Countries ===================== */
+const ticks = (n) => `<span class="ticks" aria-label="${n}/5">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
+function renderFilters() {
+  $("#q").placeholder = u("search");
+  const keep = (id) => $(id).value;
+  const [l, d, p] = [keep("#fLang"), keep("#fDiff"), keep("#fPath")];
+  $("#fLang").innerHTML = `<option value="">${u("allLang")}</option>` + Object.entries(NS.LANGS).map(([k, v]) => `<option value="${k}">${tx(v)}</option>`).join("");
+  $("#fDiff").innerHTML = `<option value="">${u("allDiff")}</option>` + [2, 3, 4, 5].map((n) => `<option value="${n}">${u("diffN", { n })}</option>`).join("");
+  $("#fPath").innerHTML = `<option value="">${u("allPath")}</option>` + Object.entries(NS.PATHWAYS).map(([k, v]) => `<option value="${k}">${tx(v)}</option>`).join("");
+  $("#fLang").value = l; $("#fDiff").value = d; $("#fPath").value = p;
+}
+function renderCountries() {
+  const q = $("#q").value.trim().toLowerCase(), fl = $("#fLang").value, fd = $("#fDiff").value, fp = $("#fPath").value;
+  const mb = $("#fMatch"); mb.setAttribute("aria-pressed", S.matchOnly && S.done); mb.textContent = S.done ? u("matchOn") : u("matchNeed"); mb.disabled = !S.done;
+  let list = NS.COUNTRIES.map((c) => ({ c, score: null }));
+  if (S.done) { const { ranked } = compute(); list = ranked.map((x) => ({ c: x.c, score: x.score })); if (!S.matchOnly) list.sort((a, b) => b.c.full - a.c.full); }
+  list = list.filter(({ c, score }) => (!q || (c.name.zh + c.name.en).toLowerCase().includes(q)) && (!fl || c.lang === fl) && (!fd || c.difficulty == fd) && (!fp || c.pathways.includes(fp)) && (!S.matchOnly || !S.done || score >= 65));
+  $("#grid").innerHTML = list.length ? list.map(({ c, score }) => `<article class="cc"><div class="top"><span class="flag" aria-hidden="true">${c.flag}</span><h3>${tx(c.name)}</h3>${score != null ? `<span class="match" style="margin-left:auto">${u("matchPct", { n: score })}</span>` : ""}</div>
+      <p>${tx(c.line)}</p><div>${c.pathways.map((p) => `<span class="chip">${tx(NS.PATHWAYS[p])}</span>`).join("")}<span class="chip warm">${tx(NS.LANGS[c.lang])}</span></div>
+      <div class="row"><span>${u("difficulty")} ${ticks(c.difficulty)}</span>${c.full ? "" : `<span class="soon">${u("comingSoon")}</span>`}</div>
+      <div class="acts">${c.full ? `<button class="btn ghost" data-open="${c.id}">${u("details")}</button>` : ""}<button class="btn ghost" data-cmp="${c.id}" aria-pressed="${S.cmp.includes(c.id)}">${S.cmp.includes(c.id) ? "✓ " + u("added") : "+ " + u("compare")}</button></div></article>`).join("") : `<p class="muted">${u("none")}</p>`;
+  renderTray();
+}
+["#q", "#fLang", "#fDiff", "#fPath"].forEach((s) => $(s).addEventListener("input", renderCountries));
+$("#fMatch").addEventListener("click", () => { S.matchOnly = !S.matchOnly; renderCountries(); });
+$("#grid").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.open) openCountry(b.dataset.open);
+  if (b.dataset.cmp) toggleCmp(b.dataset.cmp);
+});
+function toggleCmp(id) {
+  if (S.cmp.includes(id)) S.cmp = S.cmp.filter((x) => x !== id);
+  else if (S.cmp.length < 3) S.cmp.push(id); else { $("#trayTxt").textContent = u("cmpMax"); return; }
+  renderCountries();
+}
+function renderTray() { $("#tray").classList.toggle("on", S.cmp.length > 0); $("#trayTxt").textContent = u("trayN", { n: S.cmp.length }); $("#cmpBtn").textContent = u("compareNow"); $("#cmpBtn").disabled = S.cmp.length < 2; }
+$("#trayClear").onclick = () => { S.cmp = []; renderCountries(); };
+$("#cmpBtn").onclick = openCompare;
+
+/* Drawer (country detail + compare) with focus handling */
+let lastFocus;
+function openDrawer(html, wide) {
+  lastFocus = document.activeElement; const d = $("#drawer");
+  d.innerHTML = `<button class="btn ghost close" id="dClose">${u("close")}</button>` + html; d.classList.toggle("wide", !!wide);
+  d.classList.add("on"); $("#scrim").classList.add("on"); d.focus(); $("#dClose").onclick = closeDrawer;
+}
+function closeDrawer() { $("#drawer").classList.remove("on"); $("#scrim").classList.remove("on"); lastFocus && lastFocus.focus(); }
+$("#scrim").onclick = closeDrawer;
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("#drawer").classList.contains("on")) closeDrawer(); });
+function openCountry(id) {
+  const c = NS.COUNTRIES.find((x) => x.id === id);
+  let gapHtml = "";
+  if (S.done) { const { s } = compute(), m = NS.matchCountry(c, s, S.answers);
+    gapHtml = `<div class="note" style="margin:16px 0"><b>${u("toTake")} · ${u("matchPct", { n: m.score })}</b><ul style="margin:6px 0 0">${m.gaps.length ? m.gaps.map((g) => `<li>${esc(gapLine(g))}</li>`).join("") : `<li>${u("noGap")}</li>`}</ul></div>`; }
+  const sec = (k, body, open) => `<details ${open ? "open" : ""}><summary>${u(k)}</summary><div>${body}</div></details>`;
+  openDrawer(`<div class="eyebrow">${u("difficulty")} ${ticks(c.difficulty)}</div><h2 id="dTitle">${c.flag} ${tx(c.name)}</h2><p class="muted">${tx(c.line)}</p>${gapHtml}
+    ${sec("overview", `<p>${tx(c.overview)}</p>`, true)}
+    ${sec("routes", c.routes.map((r) => `<div class="route"><b>${tx(r.name)}</b><span class="chip">${tx(NS.PATHWAYS[r.type])}</span><div class="muted">${tx(r.note)}</div></div>`).join(""))}
+    ${sec("reqs", `<table class="req">${c.req.map(([a, b]) => `<tr><td>${tx(a)}</td><td>${tx(b)}</td></tr>`).join("")}</table>`)}
+    ${sec("living", `<p>${tx(c.living)}</p>`)}
+    ${sec("risks", `<ul>${c.risks.map((r) => `<li>${tx(r)}</li>`).join("")}</ul>`)}
+    ${sec("suits", c.suits.map((s) => `<span class="chip">${tx(s)}</span>`).join(""))}
+    ${sec("links", `<ul>${c.links.map((l) => `<li><a href="${l.url}" target="_blank" rel="noopener">${tx(l.label)} ↗</a></li>`).join("")}</ul>`)}
+    <p class="note" style="margin-top:20px">${u("disclaimer")}</p>`);
+}
+function openCompare() {
+  const cs = S.cmp.map((id) => NS.COUNTRIES.find((c) => c.id === id)), sc = S.done ? compute().s : null;
+  const row = (label, f) => `<tr><td>${label}</td>${cs.map((c) => `<td>${f(c)}</td>`).join("")}</tr>`;
+  const soon = `<span class="soon">${u("comingSoon")}</span>`;
+  openDrawer(`<div class="eyebrow">${u("compare")}</div><h2 id="dTitle">${u("cmpTitle")}</h2><div class="cmp"><table>
+    <tr><td></td>${cs.map((c) => `<th>${c.flag} ${tx(c.name)}</th>`).join("")}</tr>
+    ${row(u("line"), (c) => tx(c.line))}
+    ${sc ? row(u("matchPct", { n: "" }).trim(), (c) => `<b class="match">${NS.matchCountry(c, sc, S.answers).score}</b>`) : ""}
+    ${row(u("difficulty"), (c) => ticks(c.difficulty))}
+    ${row(u("language"), (c) => tx(NS.LANGS[c.lang]))}
+    ${row(u("pathways"), (c) => c.pathways.map((p) => tx(NS.PATHWAYS[p])).join(" · "))}
+    ${row(u("reqs"), (c) => (c.full ? c.req.slice(0, 2).map(([a, b]) => `<b>${tx(a)}</b>: ${tx(b)}`).join("<br>") : soon))}
+    ${row(u("living"), (c) => (c.full ? tx(c.living) : soon))}
+    ${row(u("risks"), (c) => (c.full ? `<ul style="padding-left:18px;margin:0">${c.risks.slice(0, 3).map((r) => `<li>${tx(r)}</li>`).join("")}</ul>` : soon))}
+    ${row(u("suits"), (c) => (c.full ? c.suits.map((s) => `<span class="chip">${tx(s)}</span>`).join("") : soon))}
+  </table></div>`, true);
+}
+
+/* ===================== Language + theme ===================== */
+function applyLang() {
+  document.documentElement.lang = S.lang === "zh" ? "zh-CN" : "en";
+  document.querySelectorAll("[data-t]").forEach((el) => { const v = u(el.dataset.t); el.hasAttribute("data-html") || /<b>/.test(v) ? (el.innerHTML = v) : (el.textContent = v); });
+  document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === S.lang));
+  renderFilters(); renderStep(); renderResults(); renderCountries();
+  if ($("#drawer").classList.contains("on")) closeDrawer();
+}
+document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => { S.lang = b.dataset.lang; localStorage.setItem("ns.lang", S.lang); applyLang(); }));
+const theme = localStorage.getItem("ns.theme"); if (theme) document.documentElement.dataset.theme = theme;
+$("#theme").onclick = () => { const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = t; localStorage.setItem("ns.theme", t); };
+applyLang();
+</script>
+</body>
+</html>

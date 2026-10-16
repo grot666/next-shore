@@ -1,0 +1,63 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Shore · Playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Space+Grotesk:wght@400;600&family=Inter:wght@400;600&family=Source+Sans+3:wght@400;600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../v2/engine.css">
+<style>
+body{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.ctl{position:sticky;top:0;height:100vh;overflow:auto;padding:22px;border-right:1px solid #0002;background:#fff;font:14px/1.4 Inter,"Noto Sans SC",sans-serif;color:#222}
+.ctl h2{font:600 16px Inter;margin:0 0 4px}.ctl p{margin:0 0 16px;opacity:.6;font-size:12px}
+.ctl label{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+.ctl input[type=color]{width:44px;height:28px;border:1px solid #0002;padding:0;background:none}
+.ctl select{font:inherit;padding:4px}.ctl input[type=range]{width:120px}
+.ctl button{width:100%;margin-top:14px;padding:10px;border:1px solid #222;background:#222;color:#fff;border-radius:6px}
+.ctl .presets{display:flex;gap:6px}.ctl .presets button{margin:0;padding:6px;background:none;color:#222}
+.ctl output{font-size:12px;opacity:.6}
+.prev{min-width:0}.demo-result{max-width:1100px;margin:0 auto;padding:0 20px 40px}
+.demo-result .go{display:none}
+@media(max-width:760px){body{grid-template-columns:1fr}.ctl{position:static;height:auto;border-right:0;border-bottom:1px solid #0002}}
+</style></head>
+<body>
+<aside class="ctl" aria-label="Controls">
+  <h2>Playground</h2><p>调颜色、字体、间距和插画强度 / Tune colors, fonts, spacing, illustration.</p>
+  <div class="presets"><button data-p="a">v2a</button><button data-p="b">v2b</button><button data-p="c">v2c</button></div>
+  <label>Sea 海 <input type="color" data-v="--sea" value="#2f5d62"></label>
+  <label>Sand 沙 <input type="color" data-v="--sand" value="#e3d2b0"></label>
+  <label>Ink 墨 <input type="color" data-v="--ink" value="#22302f"></label>
+  <label>Accent 点缀 <input type="color" data-v="--accent" value="#c97a3d"></label>
+  <label>Paper 纸 <input type="color" data-v="--paper" value="#f4efe5"></label>
+  <label>Fonts 字体 <select id="font">
+    <option value='"Fraunces","Noto Serif SC",serif|"Inter","Noto Sans SC",sans-serif'>Fraunces + Inter</option>
+    <option value='"Source Serif 4","Noto Serif SC",serif|"Source Sans 3","Noto Sans SC",sans-serif'>Source Serif + Sans</option>
+    <option value='"IBM Plex Serif","Noto Serif SC",serif|"IBM Plex Sans","Noto Sans SC",sans-serif'>IBM Plex pair</option>
+    <option value='"Space Grotesk","Noto Sans SC",sans-serif|"Inter","Noto Sans SC",sans-serif'>Space Grotesk + Inter</option>
+  </select></label>
+  <label>Spacing 间距 <input type="range" id="space" min="0.7" max="1.6" step="0.05" value="1"><output id="spaceO">1</output></label>
+  <label>Illustration 插画 <input type="range" id="intensity" min="0" max="1" step="0.05" value="1"><output id="intO">1</output></label>
+  <label>Line 线宽 <input type="range" id="line" min="0.8" max="3" step="0.1" value="1.4"><output id="lineO">1.4</output></label>
+  <button id="copy">复制 CSS 变量 / Copy CSS variables</button>
+  <pre id="out" style="font-size:11px;white-space:pre-wrap;opacity:.7"></pre>
+</aside>
+<div class="prev"><div id="app"></div><div class="demo-result"></div></div>
+<script src="../data.js"></script><script src="../v2/engine.js"></script>
+<script>
+const app = document.getElementById("app"), R = document.documentElement;
+NSV.mount(app, { demo: true });
+const PRE = { a: { "--sea": "#1d2326", "--sand": "#fbfaf7", "--ink": "#1d2326", "--accent": "#b5532f", "--paper": "#fbfaf7", i: 0, s: 1.35 },
+  b: { "--sea": "#2f5d62", "--sand": "#e3d2b0", "--ink": "#22302f", "--accent": "#c97a3d", "--paper": "#f4efe5", i: 1, s: 1 },
+  c: { "--sea": "#123a40", "--sand": "#e9d6ae", "--ink": "#10282c", "--accent": "#e2932f", "--paper": "#f2e9d8", i: 1, s: 1 } };
+function vars() {
+  const v = {}; document.querySelectorAll("[data-v]").forEach((i) => v[i.dataset.v] = i.value);
+  const [hd, bd] = document.getElementById("font").value.split("|"); v["--head"] = hd; v["--body"] = bd;
+  v["--space"] = space.value; v["--intensity"] = intensity.value; v["--line"] = line.value + "px"; return v;
+}
+function apply() {
+  const v = vars(); for (const k in v) R.style.setProperty(k, v[k]);
+  spaceO.textContent = space.value; intO.textContent = intensity.value; lineO.textContent = line.value;
+  out.textContent = ":root{\n" + Object.entries(v).map(([k, x]) => `  ${k}: ${x};`).join("\n") + "\n}";
+}
+document.querySelectorAll(".ctl input,.ctl select").forEach((i) => i.addEventListener("input", apply));
+document.querySelectorAll("[data-p]").forEach((b) => b.onclick = () => { const p = PRE[b.dataset.p]; document.querySelectorAll("[data-v]").forEach((i) => i.value = p[i.dataset.v]); intensity.value = p.i; space.value = p.s; apply(); });
+copy.onclick = async () => { try { await navigator.clipboard.writeText(out.textContent); copy.textContent = "已复制 / Copied"; } catch (e) { const r = document.createRange(); r.selectNodeContents(out); getSelection().removeAllRanges(); getSelection().addRange(r); copy.textContent = "已选中，按 Ctrl+C / Selected — press Ctrl+C"; } setTimeout(() => copy.textContent = "复制 CSS 变量 / Copy CSS variables", 1800); };
+apply();
+</script></body></html>
